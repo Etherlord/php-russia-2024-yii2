@@ -1,0 +1,63 @@
+{
+    "name": "app/php-russia-2024-yii2",
+    "description": "PHP Russia 2024 Yii 2 example application",
+    "license": "BSD-3-Clause",
+    "type": "project",
+    "require": {
+        "php": "^8.3",
+        "yiisoft/yii2": "^2.0.51",
+        "yiithings/yii2-dotenv": "^1.1"
+    },
+    "require-dev": {
+        "ergebnis/composer-normalize": "^2.44",
+        "friendsofphp/php-cs-fixer": "^3.64",
+        "icanhazstring/composer-unused": "^0.8.11",
+        "maglnet/composer-require-checker": "^4.12",
+        "phpyh/coding-standard": "^2.6.2",
+        "rector/rector": "^1.2",
+        "vimeo/psalm": "^5.26",
+        "yiisoft/yii2-debug": "^2.1.25"
+    },
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://asset-packagist.org"
+        }
+    ],
+    "minimum-stability": "stable",
+    "config": {
+        "allow-plugins": {
+            "ergebnis/composer-normalize": true,
+            "yiisoft/yii2-composer": true
+        },
+        "fxp-asset": {
+            "enabled": false
+        },
+        "process-timeout": 1800
+    },
+    "extra": {
+        "yii\\composer\\Installer::postCreateProject": {
+            "setPermission": [
+                {
+                    "runtime": "0777",
+                    "web/assets": "0777",
+                    "yii": "0755"
+                }
+            ]
+        },
+        "yii\\composer\\Installer::postInstall": {
+            "generateCookieValidationKey": [
+                "config/web.php"
+            ]
+        }
+    },
+    "scripts": {
+        "post-install-cmd": [
+            "yii\\composer\\Installer::postInstall"
+        ],
+        "post-create-project-cmd": [
+            "yii\\composer\\Installer::postCreateProject",
+            "yii\\composer\\Installer::postInstall"
+        ]
+    }
+}

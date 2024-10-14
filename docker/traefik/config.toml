@@ -1,0 +1,3 @@
+[[tls.certificates]]
+    certFile = "/config/php-russia-2024-yii2.local.crt"
+    keyFile = "/config/php-russia-2024-yii2.local.key"
