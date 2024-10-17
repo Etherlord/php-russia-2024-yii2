@@ -1,7 +1,8 @@
 <?php
 
 declare(strict_types=1);
-use app\modules\index\Module;
+
+$modules = require __DIR__ . '/modules.php';
 
 $config = [
     'id' => 'php-russia-2024-yii2',
@@ -32,13 +33,11 @@ $config = [
             'rules' => [
                 'GET /' => 'index/index',
                 'GET /api/v1/welcome' => 'welcome/welcome/welcome',
+                'POST /api/v1/upload-file' => 's3/upload/upload',
             ],
         ],
     ],
-    'modules' => [
-        'index' => ['class' => Module::class],
-        'welcome' => ['class' => app\modules\welcome\Module::class],
-    ],
+    'modules' => $modules,
 ];
 
 if (YII_ENV_DEV) {

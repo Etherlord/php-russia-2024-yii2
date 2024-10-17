@@ -1,0 +1,20 @@
+<?php
+
+declare(strict_types=1);
+
+namespace yii\base;
+
+use ArrayAccess;
+use IteratorAggregate;
+
+class Model extends Component implements StaticInstanceInterface, IteratorAggregate, ArrayAccess, Arrayable
+{
+    /**
+     * @template T of ?string
+     * @param T $attribute
+     * @return (T is null ? array<string, list<string>> : list<string>)
+     */
+    public function getErrors($attribute = null)
+    {
+    }
+}

@@ -2,19 +2,12 @@
 
 declare(strict_types=1);
 
-$params = require __DIR__ . '/params.php';
-$db = require __DIR__ . '/db.php';
+$modules = require __DIR__ . '/modules.php';
 
 $config = [
-    'id' => 'basic-console',
+    'id' => 'php-russia-2024-yii2-console',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
-    'controllerNamespace' => 'app\commands',
-    'aliases' => [
-        '@bower' => '@vendor/bower-asset',
-        '@npm'   => '@vendor/npm-asset',
-        '@tests' => '@app/tests',
-    ],
     'components' => [
         'cache' => [
             'class' => 'yii\caching\FileCache',
@@ -27,9 +20,8 @@ $config = [
                 ],
             ],
         ],
-        'db' => $db,
     ],
-    'params' => $params,
+    'modules' => $modules,
     /*
     'controllerMap' => [
         'fixture' => [ // Fixture generation command line.
@@ -40,11 +32,6 @@ $config = [
 ];
 
 if (YII_ENV_DEV) {
-    // configuration adjustments for 'dev' environment
-    $config['bootstrap'][] = 'gii';
-    $config['modules']['gii'] = [
-        'class' => 'yii\gii\Module',
-    ];
     // configuration adjustments for 'dev' environment
     // requires version `2.1.21` of yii2-debug module
     $config['bootstrap'][] = 'debug';

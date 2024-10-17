@@ -5,6 +5,7 @@
     "type": "project",
     "require": {
         "php": "^8.3",
+        "aws/aws-sdk-php": "^3.324",
         "yiisoft/yii2": "^2.0.51",
         "yiithings/yii2-dotenv": "^1.1"
     },

@@ -1,4 +1,6 @@
 {
-    "symbol-whitelist": [],
+    "symbol-whitelist": [
+        "YII_ENV"
+    ],
     "scan-files": []
 }

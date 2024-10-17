@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <psalm
         cacheDirectory="var/psalm"
+        autoloader="vendor/yiisoft/yii2/Yii.php"
         checkForThrowsDocblock="true"
         checkForThrowsInGlobalScope="true"
         disableSuppressAll="true"
@@ -25,6 +26,12 @@
             <directory name="src/modules/index/views" />
         </ignoreFiles>
     </projectFiles>
+    
+    <stubs>
+        <file name="src-dev/psalm/stubs/yii/base/Model.phpstub" />
+        <file name="src-dev/psalm/stubs/yii/di/Container.phpstub" />
+        <file name="src-dev/psalm/stubs/const.phpstub"/>
+    </stubs>
 
     <forbiddenFunctions>
         <function name="dd"/>

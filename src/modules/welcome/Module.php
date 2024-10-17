@@ -12,6 +12,8 @@ final class Module extends BaseModule
     {
         parent::init();
 
-        $this->params['welcome-message'] = getenv('WELCOME_MESSAGE') ?: env('WELCOME_MESSAGE');
+        $this->params['welcome-message'] = getenv('WELCOME_MESSAGE') === false
+            ? env('WELCOME_MESSAGE')
+            : getenv('WELCOME_MESSAGE');
     }
 }

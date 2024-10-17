@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace app\modules\welcome\controllers;
 
-use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\web\Response;
 
@@ -12,14 +11,8 @@ final class WelcomeController extends Controller
 {
     public $enableCsrfValidation = false;
 
-    /**
-     * @throws BadRequestHttpException
-     */
     public function beforeAction($action): bool
     {
-        /**
-         * @psalm-suppress UndefinedClass
-         */
         \Yii::$app->response->format = Response::FORMAT_JSON;
 
         return parent::beforeAction($action);
@@ -27,9 +20,9 @@ final class WelcomeController extends Controller
 
     public function actionWelcome(): string
     {
-        /**
-         * @psalm-suppress UndefinedClass
-         */
-        return json_encode(\Yii::$app->getModule('welcome')->params['welcome-message']);
+        return json_encode(
+            \Yii::$app->getModule('welcome')?->params['welcome-message']
+            ?? throw new \RuntimeException("Request failed. Can't get welcome message param"),
+        );
     }
 }
