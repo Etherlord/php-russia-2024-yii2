@@ -14,8 +14,8 @@
         "icanhazstring/composer-unused": "^0.8.11",
         "maglnet/composer-require-checker": "^4.12",
         "phpyh/coding-standard": "^2.6.2",
-        "rector/rector": "^1.2",
-        "vimeo/psalm": "^5.26",
+        "rector/rector": "^1.2.7",
+        "vimeo/psalm": "^5.26.1",
         "yiisoft/yii2-debug": "^2.1.25"
     },
     "repositories": [
@@ -25,6 +25,11 @@
         }
     ],
     "minimum-stability": "stable",
+    "autoload": {
+        "psr-4": {
+            "app\\": "src/"
+        }
+    },
     "config": {
         "allow-plugins": {
             "ergebnis/composer-normalize": true,

@@ -18,11 +18,11 @@
         xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
 >
     <projectFiles>
-        <directory name="commands" />
-        <directory name="controllers" />
+        <directory name="src" />
         <ignoreFiles>
             <directory name="var" />
             <directory name="vendor" />
+            <directory name="src/modules/index/views" />
         </ignoreFiles>
     </projectFiles>
 
@@ -30,7 +30,6 @@
         <function name="dd"/>
         <function name="die"/>
         <function name="dump"/>
-        <function name="echo"/>
         <function name="empty"/>
         <function name="eval"/>
         <function name="exit"/>
@@ -38,7 +37,6 @@
         <function name="sleep"/>
         <function name="usleep"/>
         <function name="var_export"/>
-        <function name="empty"/>
     </forbiddenFunctions>
 
     <issueHandlers>

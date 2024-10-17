@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace app\controllers;
+namespace app\modules\welcome\controllers;
 
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\web\Response;
 
-final class ApiV1Controller extends Controller
+final class WelcomeController extends Controller
 {
     public $enableCsrfValidation = false;
 
@@ -25,17 +25,11 @@ final class ApiV1Controller extends Controller
         return parent::beforeAction($action);
     }
 
-    public function actions(): array
-    {
-        return [
-            'error' => [
-                'class' => 'yii\web\ErrorAction',
-            ],
-        ];
-    }
-
     public function actionWelcome(): string
     {
-        return json_encode(['ss' => 'sss']);
+        /**
+         * @psalm-suppress UndefinedClass
+         */
+        return json_encode(\Yii::$app->getModule('welcome')->params['welcome-message']);
     }
 }

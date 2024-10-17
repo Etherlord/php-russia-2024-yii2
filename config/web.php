@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=1);
+use app\modules\index\Module;
 
 $config = [
     'id' => 'php-russia-2024-yii2',
@@ -11,7 +12,7 @@ $config = [
             'enableCookieValidation' => false,
         ],
         'errorHandler' => [
-            'errorAction' => 'index/error',
+            'errorAction' => 'index/index/error',
         ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
@@ -29,10 +30,14 @@ $config = [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
-                '/' => 'index/index',
-                '/api/v1/welcome' => 'api-v1/welcome',
+                'GET /' => 'index/index',
+                'GET /api/v1/welcome' => 'welcome/welcome/welcome',
             ],
         ],
+    ],
+    'modules' => [
+        'index' => ['class' => Module::class],
+        'welcome' => ['class' => app\modules\welcome\Module::class],
     ],
 ];
 

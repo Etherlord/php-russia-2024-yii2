@@ -9,9 +9,8 @@ use PHPyh\CodingStandard\PhpCsFixerCodingStandard;
 
 $finder = (new Finder())
     ->in([
-        __DIR__ . '/commands',
         __DIR__ . '/config',
-        __DIR__ . '/controllers',
+        __DIR__ . '/src',
         __DIR__ . '/views',
         __DIR__ . '/web',
     ])

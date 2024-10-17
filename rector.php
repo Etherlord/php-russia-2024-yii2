@@ -10,9 +10,7 @@ return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->parallel();
     $rectorConfig->cacheDirectory(__DIR__ . '/var/rector');
     $rectorConfig->paths([
-        __DIR__ . '/commands',
-        __DIR__ . '/controllers',
-        __DIR__ . '/web',
+        __DIR__ . '/src',
     ]);
     $rectorConfig->sets([
         LevelSetList::UP_TO_PHP_83,

@@ -1,8 +1,4 @@
 {
     "symbol-whitelist": [],
-    "scan-files": [
-        "commands/*.php",
-        "controllers/*.php",
-        "web/*.php"
-    ]
+    "scan-files": []
 }
