@@ -5,6 +5,7 @@
     "type": "project",
     "require": {
         "php": "^8.3",
+        "ext-ctype": "*",
         "ext-filter": "*",
         "aws/aws-sdk-php": "^3.324.7",
         "vlucas/phpdotenv": "^5.6.1",

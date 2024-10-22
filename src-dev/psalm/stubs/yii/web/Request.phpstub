@@ -1,0 +1,17 @@
+<?php
+
+declare(strict_types=1);
+
+namespace yii\web;
+
+class Request extends \yii\base\Request
+{
+     /**
+     * @template T of ?string
+     * @param T $name
+     * @return (T is null ? array : mixed)
+     */
+    public function post($name = null, $defaultValue = null)
+    {
+    }
+}

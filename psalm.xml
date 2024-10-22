@@ -28,6 +28,7 @@
     </projectFiles>
     
     <stubs>
+        <file name="src-dev/psalm/stubs/yii/web/Request.phpstub" />
         <file name="src-dev/psalm/stubs/yii/base/Model.phpstub" />
         <file name="src-dev/psalm/stubs/yii/di/Container.phpstub" />
         <file name="src-dev/psalm/stubs/const.phpstub"/>

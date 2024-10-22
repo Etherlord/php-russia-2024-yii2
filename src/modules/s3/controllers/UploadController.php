@@ -4,19 +4,15 @@ declare(strict_types=1);
 
 namespace app\modules\s3\controllers;
 
-use app\modules\s3\models\UploadForm;
 use app\modules\s3\storage\S3FileStorage;
 use yii\base\InvalidConfigException;
 use yii\base\Module;
 use yii\di\NotInstantiableException;
 use yii\web\Controller;
-use yii\web\Response;
 use yii\web\UploadedFile;
 
 final class UploadController extends Controller
 {
-    public $enableCsrfValidation = false;
-
     private readonly S3FileStorage $fileStorage;
 
     private readonly string $bucketName;
@@ -37,32 +33,30 @@ final class UploadController extends Controller
             ?? throw new \RuntimeException("Upload controller init failed. Can't get bucket name");
     }
 
-    public function beforeAction($action): bool
+    public function actionUpload(): array
     {
-        \Yii::$app->response->format = Response::FORMAT_JSON;
+        $file = UploadedFile::getInstanceByName('file');
 
-        return parent::beforeAction($action);
-    }
+        if ($file === null) {
+            \Yii::$app->response->setStatusCode(400);
 
-    public function actionUpload(): string
-    {
-        $file = UploadedFile::getInstanceByName('file')
-            ?? throw new \RuntimeException("Can't upload file. File not found in request");
-        $uploadForm = new UploadForm($file);
-        $uploadForm->verify();
+            return [
+                'errors' => "Can't upload file. File not found in request",
+            ];
+        }
 
-        $filename = $uploadForm->file->getBaseName() . '.' . $uploadForm->file->getExtension();
+        $filename = $file->getBaseName() . '.' . $file->getExtension();
 
         $this->fileStorage->upload(
             bucket: $this->bucketName,
             filename: $filename,
-            fileContent: file_get_contents($uploadForm->file->tempName),
+            fileContent: file_get_contents($file->tempName),
         );
 
-        return json_encode([
+        return [
             'url' => $this->fileStorage
                 ->getPermanentDownloadUrl($this->bucketName, $filename)
                 ?? 'file not found',
-        ], JSON_THROW_ON_ERROR);
+        ];
     }
 }
