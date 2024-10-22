@@ -2,5 +2,10 @@
 
 declare(strict_types=1);
 
-defined('YII_DEBUG') || define('YII_DEBUG', getenv('YII_DEBUG') ?: (bool) env('YII_DEBUG'));
-defined('YII_ENV') || define('YII_ENV', getenv('YII_ENV') ?: env('YII_ENV', default: 'dev'));
+use app\infrastructure\EnvType;
+
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../', '.env');
+$dotenv->load();
+
+defined('YII_DEBUG') || define('YII_DEBUG', env('YII_DEBUG', EnvType::BOOL, false));
+defined('YII_ENV') || define('YII_ENV', env('YII_ENV', EnvType::ALPHABETIC_STRING, 'prod'));

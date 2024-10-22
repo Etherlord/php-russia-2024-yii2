@@ -2,38 +2,31 @@
 
 declare(strict_types=1);
 
+$bootstrap = require __DIR__ . '/bootstrap.php';
+$commonComponents = require __DIR__ . '/common-components.php';
 $modules = require __DIR__ . '/modules.php';
 
 $config = [
     'id' => 'php-russia-2024-yii2',
     'basePath' => dirname(__DIR__),
-    'bootstrap' => ['log'],
+    'bootstrap' => $bootstrap,
     'components' => [
-        'request' => [
-            'enableCookieValidation' => false,
-        ],
-        'errorHandler' => [
-            'errorAction' => 'index/index/error',
-        ],
-        'cache' => [
-            'class' => 'yii\caching\FileCache',
-        ],
-        'log' => [
-            'traceLevel' => YII_DEBUG ? 3 : 0,
-            'targets' => [
-                [
-                    'class' => 'yii\log\FileTarget',
-                    'levels' => ['error', 'warning'],
-                ],
+        ...$commonComponents,
+        ...[
+            'request' => [
+                'enableCookieValidation' => false,
             ],
-        ],
-        'urlManager' => [
-            'enablePrettyUrl' => true,
-            'showScriptName' => false,
-            'rules' => [
-                'GET /' => 'index/index',
-                'GET /api/v1/welcome' => 'welcome/welcome/welcome',
-                'POST /api/v1/upload-file' => 's3/upload/upload',
+            'errorHandler' => [
+                'errorAction' => 'index/index/error',
+            ],
+            'urlManager' => [
+                'enablePrettyUrl' => true,
+                'showScriptName' => false,
+                'rules' => [
+                    'GET /' => 'index/index',
+                    'GET /api/v1/welcome' => 'welcome/welcome/welcome',
+                    'POST /api/v1/upload-file' => 's3/upload/upload',
+                ],
             ],
         ],
     ],

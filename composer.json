@@ -5,17 +5,19 @@
     "type": "project",
     "require": {
         "php": "^8.3",
-        "aws/aws-sdk-php": "^3.324",
+        "ext-filter": "*",
+        "aws/aws-sdk-php": "^3.324.7",
+        "vlucas/phpdotenv": "^5.6.1",
         "yiisoft/yii2": "^2.0.51",
-        "yiithings/yii2-dotenv": "^1.1"
+        "yiisoft/yii2-queue": "^2.3.7"
     },
     "require-dev": {
         "ergebnis/composer-normalize": "^2.44",
         "friendsofphp/php-cs-fixer": "^3.64",
         "icanhazstring/composer-unused": "^0.8.11",
-        "maglnet/composer-require-checker": "^4.12",
+        "maglnet/composer-require-checker": "^4.13",
         "phpyh/coding-standard": "^2.6.2",
-        "rector/rector": "^1.2.7",
+        "rector/rector": "^1.2.8",
         "vimeo/psalm": "^5.26.1",
         "yiisoft/yii2-debug": "^2.1.25"
     },
@@ -29,7 +31,10 @@
     "autoload": {
         "psr-4": {
             "app\\": "src/"
-        }
+        },
+        "files": [
+            "src/infrastructure/functions.php"
+        ]
     },
     "config": {
         "allow-plugins": {

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace app\modules\s3;
 
+use app\infrastructure\EnvType;
 use app\modules\s3\storage\S3FileStorage;
 use Aws\S3\S3Client;
 use yii\base\InvalidConfigException;
@@ -33,15 +34,14 @@ final class Module extends BaseModule
             $httpVerifyS3 = false;
         }
 
-        /** @psalm-suppress RiskyTruthyFalsyComparison */
         $container->setSingleton(S3Client::class, params: [
             'args' => [
-                'region' => getenv('S3_REGION') ?: env('S3_REGION'),
-                'endpoint' => getenv('S3_ENDPOINT') ?: env('S3_ENDPOINT'),
+                'region' => env('S3_REGION', EnvType::ALPHABETIC_STRING, 'local'),
+                'endpoint' => env('S3_ENDPOINT', EnvType::URL, 'http://minio-endpoint'),
                 'use_path_style_endpoint' => true,
                 'credentials' => [
-                    'key' => getenv('S3_USER') ?: env('S3_USER'),
-                    'secret' => getenv('S3_PASSWORD') ?: env('S3_PASSWORD'),
+                    'key' => env('S3_USER', EnvType::ALPHABETIC_STRING, 'user'),
+                    'secret' => env('S3_PASSWORD', EnvType::ALPHABETIC_STRING, 'pass'),
                 ],
                 'http' => [
                     'verify' => $httpVerifyS3,
@@ -53,7 +53,10 @@ final class Module extends BaseModule
             'client' => $container->get(S3Client::class),
         ]);
 
-        /** @psalm-suppress RiskyTruthyFalsyComparison */
-        $this->params['s3-bucket-name'] = getenv('S3_BUCKET_NAME') ?: env('S3_BUCKET_NAME');
+        $this->params['s3-bucket-name'] = env(
+            'S3_BUCKET_NAME',
+            EnvType::ALPHABETIC_STRING,
+            'bucket-name',
+        );
     }
 }

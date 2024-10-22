@@ -2,25 +2,15 @@
 
 declare(strict_types=1);
 
+$bootstrap = require __DIR__ . '/bootstrap.php';
+$commonComponents = require __DIR__ . '/common-components.php';
 $modules = require __DIR__ . '/modules.php';
 
 $config = [
     'id' => 'php-russia-2024-yii2-console',
     'basePath' => dirname(__DIR__),
-    'bootstrap' => ['log'],
-    'components' => [
-        'cache' => [
-            'class' => 'yii\caching\FileCache',
-        ],
-        'log' => [
-            'targets' => [
-                [
-                    'class' => 'yii\log\FileTarget',
-                    'levels' => ['error', 'warning'],
-                ],
-            ],
-        ],
-    ],
+    'bootstrap' => $bootstrap,
+    'components' => $commonComponents,
     'modules' => $modules,
     /*
     'controllerMap' => [

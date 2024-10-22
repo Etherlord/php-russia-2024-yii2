@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace app\modules\welcome;
 
+use app\infrastructure\EnvType;
 use yii\base\Module as BaseModule;
 
 final class Module extends BaseModule
@@ -12,8 +13,10 @@ final class Module extends BaseModule
     {
         parent::init();
 
-        $this->params['welcome-message'] = getenv('WELCOME_MESSAGE') === false
-            ? env('WELCOME_MESSAGE')
-            : getenv('WELCOME_MESSAGE');
+        $this->params['welcome-message'] = env(
+            'WELCOME_MESSAGE',
+            EnvType::ALPHABETIC_STRING,
+            'default welcome',
+        );
     }
 }
