@@ -19,6 +19,8 @@ RUN <<EOF
           unzip
 EOF
 
+COPY docker/php-fpm/www-json-logs.conf /usr/local/etc/php-fpm.d/www-json-logs.conf
+
 RUN <<EOF
   install-php-extensions opcache
   apt-get remove -q -y \

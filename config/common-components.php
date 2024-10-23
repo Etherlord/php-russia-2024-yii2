@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Sil\JsonLog\target\JsonFileTarget;
 use yii\queue\file\Queue;
 use yii\queue\LogBehavior;
 
@@ -13,8 +14,10 @@ return [
         'traceLevel' => YII_DEBUG ? 3 : 0,
         'targets' => [
             [
-                'class' => 'yii\log\FileTarget',
+                'class' => JsonFileTarget::class,
                 'levels' => ['error', 'warning', 'info'],
+                'logFile' => 'php://stdout',
+                'logVars' => [],
             ],
         ],
     ],
