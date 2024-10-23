@@ -2,6 +2,9 @@
 
 declare(strict_types=1);
 
+use agielks\yii2\jwt\Jwt;
+use app\infrastructure\EnvType;
+use app\infrastructure\models\User;
 use yii\web\JsonResponseFormatter;
 use yii\web\Response;
 
@@ -16,8 +19,20 @@ $config = [
     'components' => [
         ...$commonComponents,
         ...[
+            'jwt' => [
+                'class' => Jwt::class,
+                'signer' => 'HS256',
+                'key'   => env('JWT_SECRET', EnvType::ALPHABETIC_STRING, 'secret'),
+            ],
+            'user' => [
+                'identityClass' => User::class,
+                'enableAutoLogin' => false,
+                'enableSession' => false,
+            ],
             'request' => [
                 'enableCsrfValidation' => false,
+                'enableCsrfCookie' => false,
+                'enableCookieValidation' => false,
                 'parsers' => [
                     'application/json' => 'yii\web\JsonParser',
                 ],
@@ -43,6 +58,7 @@ $config = [
                     'GET /api/v1/welcome' => 'welcome/welcome/welcome',
                     'POST /api/v1/upload-file' => 's3/upload/upload',
                     'POST /api/v1/send-task-to-consumer' => 'queue/send/send-task',
+                    'POST /api/v1/authenticate' => 'auth/auth/authenticate',
                 ],
             ],
         ],

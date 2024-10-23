@@ -4,14 +4,25 @@ declare(strict_types=1);
 
 namespace app\modules\queue\controllers;
 
+use agielks\yii2\jwt\JwtBearerAuth;
 use app\modules\queue\jobs\Task;
 use app\modules\queue\models\SendTaskForm;
 use yii\base\UnknownPropertyException;
 use yii\queue\file\Queue;
-use yii\web\Controller;
+use yii\rest\Controller;
 
 final class SendController extends Controller
 {
+    public function behaviors(): array
+    {
+        $behaviors = parent::behaviors();
+        $behaviors['authenticator'] = [
+            'class' => JwtBearerAuth::class,
+        ];
+
+        return $behaviors;
+    }
+
     /**
      * @throws UnknownPropertyException
      */

@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace app\modules\s3\controllers;
 
+use agielks\yii2\jwt\JwtBearerAuth;
 use app\modules\s3\storage\S3FileStorage;
 use yii\base\InvalidConfigException;
 use yii\base\Module;
 use yii\di\NotInstantiableException;
-use yii\web\Controller;
+use yii\rest\Controller;
 use yii\web\UploadedFile;
 
 final class UploadController extends Controller
@@ -31,6 +32,16 @@ final class UploadController extends Controller
         $this->fileStorage = \Yii::$container->get(S3FileStorage::class);
         $this->bucketName = \Yii::$app->getModule('s3')?->params['s3-bucket-name']
             ?? throw new \RuntimeException("Upload controller init failed. Can't get bucket name");
+    }
+
+    public function behaviors(): array
+    {
+        $behaviors = parent::behaviors();
+        $behaviors['authenticator'] = [
+            'class' => JwtBearerAuth::class,
+        ];
+
+        return $behaviors;
     }
 
     public function actionUpload(): array

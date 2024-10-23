@@ -9,4 +9,5 @@ return [
     'welcome' => ['class' => app\modules\welcome\Module::class],
     's3' => ['class' => app\modules\s3\Module::class],
     'queue' => ['class' => app\modules\queue\Module::class],
+    'auth' => ['class' => app\modules\auth\Module::class],
 ];
