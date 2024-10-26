@@ -1,0 +1,14 @@
+## Ignore all
+*
+
+## Except
+!/config
+!/docker
+!/src
+!/src-dev
+!/views
+!/web
+!.env
+!composer.json
+!composer.lock
+!yii

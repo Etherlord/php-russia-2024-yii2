@@ -1,6 +1,6 @@
 FROM composer:2.8 AS composer
 FROM mlocati/php-extension-installer:2.4 AS php-extension-installer
-FROM php:8.3-fpm-bookworm AS php-fpm
+FROM php:8.3-fpm-bookworm AS dev-php
 
 COPY --from=composer /usr/bin/composer /usr/bin/composer
 COPY --from=php-extension-installer /usr/bin/install-php-extensions /usr/bin/install-php-extensions
@@ -16,10 +16,13 @@ EOF
 RUN <<EOF
   apt-get update
   apt-get install --no-install-recommends --no-install-suggests -q -y \
-          unzip
+          unzip \
+          libfcgi-bin
 EOF
 
 COPY docker/php-fpm/www-json-logs.conf /usr/local/etc/php-fpm.d/www-json-logs.conf
+COPY docker/php-fpm/www-status.conf /usr/local/etc/php-fpm.d/www-status.conf
+COPY docker/php-fpm/php-fpm-healthcheck /usr/local/bin/php-fpm-healthcheck
 
 RUN <<EOF
   install-php-extensions opcache
@@ -32,4 +35,28 @@ WORKDIR /app
 
 RUN chown www-data:www-data /app
 
+RUN <<EOF
+  chown www-data:www-data /app
+  mkdir -p /app/runtime
+  chown www-data:www-data /app/runtime
+  mkdir -p /app/runtime/queue
+  chown www-data:www-data /app/runtime/queue
+EOF
+
 USER www-data
+
+FROM dev-php AS prod-php
+
+ENV COMPOSER_CACHE_DIR=/tmp/composer/cache
+
+COPY ./composer.json ./composer.lock ./
+
+RUN \
+    --mount=type=cache,uid=${UID},gid=${GID},target=/tmp/composer/cache \
+    composer install --no-dev --no-scripts --no-autoloader --prefer-dist --no-progress --no-interaction
+
+COPY --chown=www-data:www-data ./ ./
+
+RUN \
+    --mount=type=cache,uid=${UID},gid=${GID},target=/tmp/composer/cache \
+    composer dump-autoload --classmap-authoritative --no-dev

@@ -1,4 +1,4 @@
-FROM nginxinc/nginx-unprivileged:1.27-bookworm
+FROM nginxinc/nginx-unprivileged:1.27-bookworm AS dev-nginx
 
 USER root
 
@@ -10,3 +10,7 @@ COPY --chown=nginx docker/nginx/default.conf /etc/nginx/conf.d/default.conf
 COPY --chown=nginx docker/nginx/nginx.conf /etc/nginx/nginx.conf
 
 WORKDIR /app
+
+FROM dev-nginx AS prod-nginx
+
+COPY --chown=nginx:nginx ./ ./

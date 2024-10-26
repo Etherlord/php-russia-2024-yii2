@@ -1,0 +1,50 @@
+services:
+    php-fpm:
+        image: ${CI_REGISTRY_IMAGE}:php-${CI_COMMIT_SHORT_SHA}
+        restart: always
+        healthcheck:
+            test: [ "CMD", "php-fpm-healthcheck" ]
+            interval: 5s
+            timeout: 5s
+            retries: 5
+        environment:
+            COMPOSER_ROOT_VERSION: ${COMPOSER_ROOT_VERSION:-1.0}
+            WELCOME_MESSAGE: ${WELCOME_MESSAGE:-default}
+            JWT_SECRET: ${JWT_SECRET:-default}
+            YII_ENV: prod
+            YII_DEBUG: false
+        volumes:
+            - queue:/app/runtime/queue
+
+    php-queue-listener:
+        image: ${CI_REGISTRY_IMAGE}:php-${CI_COMMIT_SHORT_SHA}
+        restart: always
+        healthcheck:
+            test: [ "CMD", "/app/yii", "queue/info" ]
+            interval: 5s
+            timeout: 5s
+            retries: 5
+        environment:
+            COMPOSER_ROOT_VERSION: ${COMPOSER_ROOT_VERSION:-1.0}
+            YII_ENV: prod
+            YII_DEBUG: false
+        volumes:
+            - queue:/app/runtime/queue
+        command: /app/yii queue/listen
+
+    nginx:
+        image: ${CI_REGISTRY_IMAGE}:nginx-${CI_COMMIT_SHORT_SHA}
+        restart: always
+        healthcheck:
+            test: [ "CMD", "curl", "--fail", "http://127.0.0.1:8080" ]
+            interval: 5s
+            timeout: 5s
+            retries: 5
+        depends_on:
+            php-fpm:
+                condition: service_healthy
+        ports:
+            - '127.0.0.1:8089:8080'
+
+volumes:
+    queue: null

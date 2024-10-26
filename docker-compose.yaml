@@ -3,7 +3,7 @@ services:
         build:
             context: .
             dockerfile: docker/php-fpm/Dockerfile
-            target: php-fpm
+            target: dev-php
             args:
                 - UID=${UID:-1000}
                 - GID=${GID:-1000}
@@ -24,7 +24,7 @@ services:
         build:
             context: .
             dockerfile: docker/php-fpm/Dockerfile
-            target: php-fpm
+            target: dev-php
             args:
                 - UID=${UID:-1000}
                 - GID=${GID:-1000}
@@ -44,6 +44,7 @@ services:
     nginx:
         build:
             context: .
+            target: dev-nginx
             dockerfile: docker/nginx/Dockerfile
         depends_on:
             php-fpm:
