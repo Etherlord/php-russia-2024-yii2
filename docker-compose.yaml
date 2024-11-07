@@ -51,14 +51,13 @@ services:
                 condition: service_started
         volumes:
             - .:/app:cached
-            - ~/.composer:/var/www/.composer
         labels:
             - traefik.enable=true
-            - traefik.http.routers.php.service=php
-            - traefik.http.routers.php.entryPoints=https
-            - traefik.http.routers.php.rule=Host(`api.php-russia-2024-yii2.local`)
-            - traefik.http.routers.php.tls=true
-            - traefik.http.services.php.loadBalancer.server.port=8080
+            - traefik.http.routers.nginx.service=nginx
+            - traefik.http.routers.nginx.entryPoints=https
+            - traefik.http.routers.nginx.rule=Host(`api.php-russia-2024-yii2.local`)
+            - traefik.http.routers.nginx.tls=true
+            - traefik.http.services.nginx.loadBalancer.server.port=8080
 
     minio:
         image: minio/minio:RELEASE.2024-10-02T17-50-41Z
