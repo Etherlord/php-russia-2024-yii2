@@ -25,6 +25,11 @@ COPY docker/php-fpm/www-status.conf /usr/local/etc/php-fpm.d/www-status.conf
 COPY docker/php-fpm/php-fpm-healthcheck /usr/local/bin/php-fpm-healthcheck
 
 RUN <<EOF
+  echo "pm=static" >> /usr/local/etc/php-fpm.d/zz-docker.conf
+  echo "pm.max_children=10" >> /usr/local/etc/php-fpm.d/zz-docker.conf
+EOF
+
+RUN <<EOF
   install-php-extensions opcache
   apt-get remove -q -y \
           ${PHPIZE_DEPS} \
